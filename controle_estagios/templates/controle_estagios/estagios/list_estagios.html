@@ -1,0 +1,96 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <a href="{% url 'controle_estagios:form_estagios' %}" class="btn btn-primary btn-lg"><strong><i class="fas fa-file-medical"></i> Novo Cadastro</strong></a>
+        <br>
+        <br>
+        <h6>*Para visualizar os cadastros basta clicar no nome do aluno(a)</h6>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Alunos</th>
+                    <th>Empresa</th>
+                    <th>Alterar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estagio in estagios_list %}
+                    <tr>
+                        <td><a type="button" class="active" data-toggle="modal" data-target="#myModal{{ estagio.id }}">{{ estagio.aluno }}</a></td>
+                        <td>{{ estagio.empresa }}</td>
+                        <td>
+                            <a href="{% url 'controle_estagios:update_estagios' estagio.id %}" class="btn btn-warning btn-sm">
+                                <strong>Alterar <i class="fas fa-address-book"></i></strong>
+                            </a>
+                        </td>
+                    </tr>
+                    <div id="myModal{{ estagio.id }}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <br>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <label>Aluno: </label>
+                                        <input class="form-control" disabled="disabled" value="{{ estagio.aluno }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Empresa: </label>
+                                        <input class="form-control" disabled="disabled" value="{{ estagio.empresa }}">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label>Valor R$: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ estagio.valor }}">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Data início: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ estagio.data_inicio }}">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Data Fim: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ estagio.data_fim }}">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Data prorrogacão: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ estagio.data_prorrogacao }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <h6>Não há Estágios cadastrados! <i class="fas fa-cogs"></i></h6>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-primary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                {% endif %}
+
+                <span class="current">
+                    <a class="btn btn-success btn-sm">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

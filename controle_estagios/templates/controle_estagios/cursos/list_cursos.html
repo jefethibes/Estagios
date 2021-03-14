@@ -1,0 +1,57 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <a href="{% url 'controle_estagios:form_cursos' %}" class="btn btn-primary btn-lg"><strong><i class="fas fa-file-medical"></i> Novo Cadastro</strong></a>
+        <br>
+        <br>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Alterar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curso in cursos_list %}
+                    <tr>
+                        <td>{{ curso.nome }}</td>
+                        <td>
+                            <a href="{% url 'controle_estagios:update_cursos' curso.id %}" class="btn btn-warning btn-sm">
+                                <strong>Alterar <i class="fas fa-address-book"></i></strong>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <h6>Não há Cursos cadastrados! <i class="fas fa-cogs"></i></h6>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-primary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                {% endif %}
+
+                <span class="current">
+                    <a class="btn btn-success btn-sm">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

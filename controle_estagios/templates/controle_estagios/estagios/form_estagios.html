@@ -1,0 +1,46 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h3>Cadastro de Estágios</h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Aluno:</label>
+                {{ form.aluno }}
+                {{ form.aluno.errors }}
+            </div>
+            <div class="form-group">
+                <label>Empresa: </label>
+                {{ form.empresa }}
+                {{ form.empresa.errors }}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Valor R$: </label>
+                    {{ form.valor }}
+                    {{ form.valor.errors }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Data início: </label>
+                    {{ form.data_inicio }}
+                    {{ form.data_inicio.errors }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Data fim: </label>
+                    {{ form.data_fim }}
+                    {{ form.data_fim.errors }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Data prorrogação: </label>
+                    {{ form.data_prorrogacao }}
+                    {{ form.data_prorrogacao.errors }}
+                </div>
+            </div>
+            <br>
+            <a href="{% url 'controle_estagios:list_alunos' %}" class="btn btn-danger btn-lg"><strong><i class="fas fa-angle-double-left"></i> Voltar</strong></a>
+            <button type="submit" class="btn btn-primary btn-lg"><strong>Salvar <i class="fas fa-check-double"></i></strong></button>
+        </form>
+    </div>
+{% endblock %}

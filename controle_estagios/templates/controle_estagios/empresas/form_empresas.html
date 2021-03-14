@@ -1,0 +1,64 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h3>Cadastro de Alunos</h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Nome: </label>
+                {{ form.nome }}
+                {{ form.nome.errors }}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>CNPJ: </label>
+                    {{ form.cnpj }}
+                    {{ form.cnpj.errors }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Fone: </label>
+                    {{ form.fone }}
+                    {{ form.fone.errors }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>CEP: </label>
+                    {{ form.cep }}
+                    {{ form.cep.errors }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <label>Endereço: </label>
+                    {{ form.endereco }}
+                    {{ form.endereco.errors }}
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Complemento: </label>
+                    {{ form.complemento }}
+                    {{ form.complemento.errors }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Bairro: </label>
+                    {{ form.bairro }}
+                    {{ form.bairro.errors }}
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Cidade: </label>
+                    {{ form.cidade }}
+                    {{ form.cidade.errors }}
+                </div>
+                <div class="form-group col-md-4">
+                    <label>País: </label>
+                    {{ form.pais }}
+                </div>
+            </div>
+            <br>
+            <a href="{% url 'controle_estagios:list_empresas' %}" class="btn btn-danger btn-lg"><strong><i class="fas fa-angle-double-left"></i> Voltar</strong></a>
+            <button type="submit" class="btn btn-primary btn-lg"><strong>Salvar <i class="fas fa-check-double"></i></strong></button>
+        </form>
+    </div>
+{% endblock %}

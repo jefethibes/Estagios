@@ -1,0 +1,138 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <a href="{% url 'controle_estagios:form_alunos' %}" class="btn btn-primary btn-lg"><strong><i class="fas fa-file-medical"></i> Novo Cadastro</strong></a>
+        <br>
+        <br>
+        <h6>*Para visualizar os cadastros basta clicar no nome do(a) aluno(a)</h6>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>Fone / Celular</th>
+                    <th>Alterar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos_list %}
+                    <tr>
+                        <td><a type="button" class="active" data-toggle="modal" data-target="#myModal{{ aluno.id }}">{{ aluno.nome }}</a></td>
+                        <td>{{ aluno.matricula }}</td>
+                        <td>{{ aluno.fone }} / {{ aluno.celular }}</td>
+                        <td>
+                            <a href="{% url 'controle_estagios:update_alunos' aluno.id %}" class="btn btn-warning btn-sm">
+                                <strong>Alterar <i class="fas fa-address-book"></i></strong>
+                            </a>
+                        </td>
+                    </tr>
+                    <div id="myModal{{ aluno.id }}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <br>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <label>Nome: </label>
+                                        <input class="form-control" disabled="disabled" value="{{ aluno.nome }}">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label>CPF: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.cpf }}">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Matrícula: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.matricula }}">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Curso: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.curso }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label>Data de Nascimento: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.data_nascimento }}">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Fone: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.fone }}">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Celular: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.celular }}">
+                                        </div>
+                                    </div>
+                                     <div class="form-row">
+                                        <div class="form-group col-md-8">
+                                            <label>E-mail: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.email }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>CEP: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.cep }}">
+                                        </div>
+                                    </div>
+                                     <div class="form-row">
+                                        <div class="form-group col-md-8">
+                                            <label>Endereço: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.endereco }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Complemento: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.complemento }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Bairro: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.bairro }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Cidade: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.cidade }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>País: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ aluno.pais }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <h6>Não há Alunos(as) Cadastrados(as)! <i class="fas fa-cogs"></i></h6>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-primary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                {% endif %}
+
+                <span class="current">
+                    <a class="btn btn-success btn-sm">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

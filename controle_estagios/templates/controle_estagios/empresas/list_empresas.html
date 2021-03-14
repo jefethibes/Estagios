@@ -1,0 +1,114 @@
+{% extends 'controle_estagios/base.html' %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <a href="{% url 'controle_estagios:form_empresas' %}" class="btn btn-primary btn-lg"><strong><i class="fas fa-file-medical"></i> Novo Cadastro</strong></a>
+        <br>
+        <br>
+        <h6>*Para visualizar os cadastros basta clicar no nome da empresa</h6>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CNPJ</th>
+                    <th>Fone</th>
+                    <th>Alterar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for empresa in empresas_list %}
+                    <tr>
+                        <td><a type="button" class="active" data-toggle="modal" data-target="#myModal{{ empresa.id }}">{{ empresa.nome }}</a></td>
+                        <td>{{ empresa.cnpj }}</td>
+                        <td>{{ empresa.fone }}</td>
+                        <td>
+                            <a href="{% url 'controle_estagios:update_empresas' empresa.id %}" class="btn btn-warning btn-sm">
+                                <strong>Alterar <i class="fas fa-address-book"></i></strong>
+                            </a>
+                        </td>
+                    </tr>
+                    <div id="myModal{{ empresa.id }}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <br>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <label>Nome: </label>
+                                        <input class="form-control" disabled="disabled" value="{{ empresa.nome }}">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label>CNPJ: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.cnpj }}">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label>Fone: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.fone }}">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>CEP: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.cep }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-8">
+                                            <label>Endereço: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.endereco }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Complemento: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.complemento }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Bairro: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.bairro }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Cidade: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.cidade }}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>País: </label>
+                                            <input class="form-control" disabled="disabled" value="{{ empresa.pais }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-danger" role="alert">
+                        <h6>Não há Empresas cadastradas! <i class="fas fa-cogs"></i></h6>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-primary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-left"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-left"></i></strong></a>
+                {% endif %}
+
+                <span class="current">
+                    <a class="btn btn-success btn-sm">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% else %}
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-right"></i></strong></a>
+                    <a class="btn btn-secondary"><strong><i class="fas fa-angle-double-right"></i></strong></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}
